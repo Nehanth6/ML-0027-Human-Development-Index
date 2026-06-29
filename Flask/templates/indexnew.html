@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDI Predictor | Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(15, 23, 42, 0.6);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at bottom right, #1e1b4b, var(--bg-color));
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        nav {
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 2rem;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem 4rem;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(to right, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        input, select {
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 1rem 1.2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #475569;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .submit-btn {
+            margin-top: 1rem;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: white;
+            padding: 1.2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -5px rgba(59, 130, 246, 0.5);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/Home">Home</a>
+        <a href="/Prediction">Predict</a>
+    </nav>
+
+    <div class="container">
+        <div class="glass-card">
+            <h2>HDI Prediction</h2>
+            <form action="/predict" method="POST">
+                
+                <div class="input-group">
+                    <label for="Region">Select Region (Encoded)</label>
+                    <select id="Region" name="Region" required>
+                        <option value="" disabled selected>Select Region</option>
+                        <option value="0">Region 0 (e.g., Africa)</option>
+                        <option value="1">Region 1 (e.g., Asia)</option>
+                        <option value="2">Region 2 (e.g., Europe)</option>
+                        <option value="3">Region 3 (e.g., North America)</option>
+                        <option value="4">Region 4 (e.g., South America)</option>
+                        <option value="5">Region 5 (e.g., Oceania)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="Life_expectancy">Life Expectancy (Years)</label>
+                    <input type="number" step="any" id="Life_expectancy" name="Life_expectancy" placeholder="e.g. 72.5 (Range 50-90)" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="Mean_schooling">Mean Years of Schooling</label>
+                    <input type="number" step="any" id="Mean_schooling" name="Mean_schooling" placeholder="e.g. 12.0 (Range 1-15)" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="GNI">Gross National Income (GNI)</label>
+                    <input type="number" step="any" id="GNI" name="GNI" placeholder="e.g. 15000 (Range 500-100000)" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Predict HDI</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
