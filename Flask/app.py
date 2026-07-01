@@ -9,7 +9,8 @@ from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from supabase import create_client, Client
 
-app = Flask(__name__) # initializing a flask app
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app = Flask(__name__, template_folder=os.path.join(BASE_DIR, 'templates')) # initializing a flask app
 app.secret_key = 'your_super_secret_key_here' # For Flask sessions and flash messages
 
 # Initialize Supabase Client
@@ -19,9 +20,9 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Load the model
 try:
-    model = pickle.load(open('HDI.pkl', 'rb'))
+    model = pickle.load(open(os.path.join(BASE_DIR, 'HDI.pkl'), 'rb'))
 except:
-    model = joblib.load('hdi_model.pkl')
+    model = joblib.load(os.path.join(BASE_DIR, 'hdi_model.pkl'))
 
 # --- AUTHENTICATION DECORATOR ---
 def login_required(f):
