@@ -117,7 +117,13 @@
 <body>
     <nav>
         <a href="/Home">Home</a>
-        <a href="/Prediction">Predict</a>
+        {% if 'user_id' in session %}
+            <a href="/Prediction">Predict</a>
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        {% endif %}
     </nav>
 
     <div class="container">

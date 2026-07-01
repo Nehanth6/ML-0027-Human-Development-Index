@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HDI Predictor | Prediction</title>
+    <title>HDI Predictor | Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -15,6 +15,7 @@
             --glass-bg: rgba(30, 41, 59, 0.7);
             --glass-border: rgba(255, 255, 255, 0.1);
             --input-bg: rgba(15, 23, 42, 0.6);
+            --error-color: #ef4444;
         }
 
         body {
@@ -65,7 +66,7 @@
             border-radius: 24px;
             padding: 3rem 4rem;
             width: 100%;
-            max-width: 500px;
+            max-width: 400px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             animation: slideUp 0.8s ease-out;
         }
@@ -98,7 +99,7 @@
             color: var(--text-muted);
         }
 
-        input, select {
+        input {
             background: var(--input-bg);
             border: 1px solid var(--glass-border);
             color: var(--text-main);
@@ -114,7 +115,7 @@
             color: #475569;
         }
 
-        input:focus, select:focus {
+        input:focus {
             border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
@@ -138,6 +139,33 @@
             box-shadow: 0 15px 25px -5px rgba(59, 130, 246, 0.5);
         }
 
+        .flash-message {
+            background-color: var(--error-color);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .toggle-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .toggle-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .toggle-link a:hover {
+            text-decoration: underline;
+        }
+
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -147,50 +175,36 @@
 <body>
     <nav>
         <a href="/Home">Home</a>
-        {% if 'user_id' in session %}
-            <a href="/Prediction">Predict</a>
-            <a href="/logout">Logout</a>
-        {% else %}
-            <a href="/login">Login</a>
-            <a href="/register">Register</a>
-        {% endif %}
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
     </nav>
 
     <div class="container">
         <div class="glass-card">
-            <h2>HDI Prediction</h2>
-            <form action="/predict" method="POST">
-                
-                <div class="input-group">
-                    <label for="Region">Select Region (Encoded)</label>
-                    <select id="Region" name="Region" required>
-                        <option value="" disabled selected>Select Region</option>
-                        <option value="0">Region 0 (e.g., Africa)</option>
-                        <option value="1">Region 1 (e.g., Asia)</option>
-                        <option value="2">Region 2 (e.g., Europe)</option>
-                        <option value="3">Region 3 (e.g., North America)</option>
-                        <option value="4">Region 4 (e.g., South America)</option>
-                        <option value="5">Region 5 (e.g., Oceania)</option>
-                    </select>
-                </div>
+            <h2>Welcome Back</h2>
+            
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
 
+            <form action="/login" method="POST">
                 <div class="input-group">
-                    <label for="Life_expectancy">Life Expectancy (Years)</label>
-                    <input type="number" step="any" id="Life_expectancy" name="Life_expectancy" placeholder="e.g. 72.5 (Range 50-90)" required>
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
                 </div>
-
                 <div class="input-group">
-                    <label for="Mean_schooling">Mean Years of Schooling</label>
-                    <input type="number" step="any" id="Mean_schooling" name="Mean_schooling" placeholder="e.g. 12.0 (Range 1-15)" required>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
                 </div>
-
-                <div class="input-group">
-                    <label for="GNI">Gross National Income (GNI)</label>
-                    <input type="number" step="any" id="GNI" name="GNI" placeholder="e.g. 15000 (Range 500-100000)" required>
-                </div>
-
-                <button type="submit" class="submit-btn">Predict HDI</button>
+                <button type="submit" class="submit-btn">Sign In</button>
             </form>
+            <div class="toggle-link">
+                Don't have an account? <a href="/register">Sign Up</a>
+            </div>
         </div>
     </div>
 </body>
