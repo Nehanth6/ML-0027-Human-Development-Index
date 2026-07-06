@@ -1,14 +1,14 @@
 {
   "builds": [
     {
-      "src": "Flask/app.py",
+      "src": "5. Project Development Phase/Flask/app.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "Flask/app.py"
+      "dest": "5. Project Development Phase/Flask/app.py"
     }
   ]
 }
